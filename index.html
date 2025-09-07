@@ -20,6 +20,7 @@
       --sand: #181818;              /* dark background */
       --water-blue: #2F80ED;        /* supporting accent */
       --white: #181818;             /* dark background */
+      --sun-yellow: #FFC400;        /* added sun yellow for gradients */
 
       --radius: 14px;
       --shadow: 0 6px 24px rgba(0,0,0,0.08);
@@ -44,7 +45,7 @@
     .skip-link {
       position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
     }
-    .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; background: var(--white); padding: .5rem .75rem; border-radius: 6px; box-shadow: var(--shadow); }
+    .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; background: var(--brand-yellow); color: #181818; padding: .5rem .75rem; border-radius: 6px; box-shadow: var(--shadow); }
 
     /* Header */
     header {
@@ -132,7 +133,7 @@
 
     /* CTA band */
     .cta {
-      background: linear-gradient(180deg, #0099FF, #2F80ED);
+      color: var(--ink-on-dark); margin-top: 2rem;
       color: var(--white); margin-top: 2rem;
     }
     .cta__inner { padding: 2rem 0; display: block; }
