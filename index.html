@@ -1,47 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Landing Page</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>See your impact • charity : water (Student Mockup)</title>
+  <style>
+    /* =============================
+       Beginner-Friendly CSS
+       - Simple variables
+       - Clear comments
+       - No frameworks
+       ============================= */
+
+    :root {
+      /* Charity: water–leaning palette */
+      --ink: #ffffff;               /* white for body text on dark */
+      --ink-on-dark: #ffffff;       /* text on dark/photo */
+      --brand-yellow: #FFC400;      /* charity: water yellow */
+      --sand: #181818;              /* dark background */
+      --water-blue: #2F80ED;        /* supporting accent */
+      --white: #181818;             /* dark background */
+
+      --radius: 14px;
+      --shadow: 0 6px 24px rgba(0,0,0,0.08);
+      --maxw: 1100px;
+    }
+
+    /* Reset + base */
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--sand);
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+    .container { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
+
+    /* Focus styles for accessibility */
+    :focus { outline: 3px solid var(--water-blue); outline-offset: 3px; }
+    .skip-link {
+      position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; background: var(--white); padding: .5rem .75rem; border-radius: 6px; box-shadow: var(--shadow); }
+
+    /* Header */
+    header {
+      position: absolute; /* sits on top of hero image */
+      inset: 0 0 auto 0;
+      background: transparent;
+      color: var(--ink-on-dark);
+      z-index: 5;
+      width: 100%;
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-weight: 700; letter-spacing: .2px;
+    }
+    .brand__mark {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--sun-yellow), #FFD95E);
+      display: grid; place-items: center; color: #2b2100; font-weight: 900;
+      box-shadow: var(--shadow);
+    }
+    .brand__text { font-size: 1.05rem; color: var(--ink-on-dark); }
+
+    .nav__actions { display: flex; gap: .6rem; }
+    .btn {
+      appearance: none; border: none; cursor: pointer; font-weight: 700;
+      padding: .65rem 1rem; border-radius: 999px; line-height: 1;
+    }
+    .btn--primary { background: var(--brand-yellow); color: #1a1a1a; }
+    .btn--ghost   { background: transparent; color: var(--ink-on-dark); border: 2px solid var(--ink-on-dark); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 86vh;
+      /* Use the PNG image as the background */
+      background: url('img/charity-water-image.png') center/cover no-repeat;
+      padding: 6.5rem 0 3.5rem;
+      color: var(--ink-on-dark);
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      /* dark-to-transparent gradient for text legibility */
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.50) 45%, rgba(0,0,0,0.35) 100%);
+      z-index: 0;
+    }
+    .hero .container { position: relative; z-index: 1; }
+
+    /* Story */
+    .story { padding: 2.5rem 0; }
+    .story__card {
+      background: #232323; /* dark gray for card */
+      border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 1.5rem; 
+      display: block; /* beginner-friendly: no grid */
+      color: var(--ink);
+    }
+    @media (min-width: 760px) {
+      .story__card { display: flex; gap: 2rem; }
+      .story__card > div { flex: 1; }
+    }
+    .story h2 { margin: 0; font-size: clamp(1.25rem, 1.1rem + .8vw, 1.75rem); color: var(--ink); }
+    .list { margin: 0; padding-left: 1.1rem; }
+
+    /* Impact highlights (optional mini-stats) */
+    .highlights { margin-top: 1rem; display: block; }
+    @media (min-width: 680px) {
+      .highlights { display: flex; gap: .75rem; }
+    }
+    .pill {
+      background: #181818; /* darker pill background */
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--ink-on-dark);
+      display: inline-block;
+      margin-bottom: .5rem;
+      padding: .65rem 1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* CTA band */
+    .cta {
+      background: linear-gradient(180deg, #0099FF, #2F80ED);
+      color: var(--white); margin-top: 2rem;
+    }
+    .cta__inner { padding: 2rem 0; display: block; }
+    @media (min-width: 800px) {
+      .cta__inner { display: flex; justify-content: space-between; align-items: center; }
+    }
+    .cta h2 { margin: 0; line-height: 1.2; }
+
+    /* Footer */
+    footer { padding: 1.5rem 0; font-size: .9rem; color: #cccccc; }
+    footer a { text-decoration: underline; color: #fff; }
+
+    /* Add a simple style for the logo image */
+    .brand__logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    /* Hamburger button styles for beginners */
+    .nav__hamburger {
+      display: none; /* Hide by default */
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 38px;
+      height: 38px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .nav__hamburger span {
+      display: block;
+      height: 4px;
+      width: 100%;
+      background: var(--ink-on-dark);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 700px) {
+      .nav__actions {
+        /* Hide nav links by default on small screens */
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 1rem;
+        background: rgba(34,34,34,0.98);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        flex-direction: column;
+        gap: 0;
+        min-width: 150px;
+        padding: .5rem 0;
+        z-index: 9;
+      }
+      .nav__actions.open {
+        display: flex;
+      }
+      .nav__actions a {
+        color: var(--ink-on-dark);
+        border-radius: 0;
+        margin: 0;
+        padding: 1rem 1.5rem;
+        border: none;
+        text-align: left;
+        width: 100%;
+      }
+      .nav__hamburger {
+        display: flex; /* Show hamburger on small screens */
+      }
+      .nav {
+        position: relative;
+      }
+    }
+
+    /* Responsive hero text for smaller screens */
+    @media (max-width: 700px) {
+      .hero {
+        padding-top: 4.5rem;
+        padding-bottom: 2rem;
+        min-height: 60vh;
+      }
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+      .hero .subhead {
+        font-size: 1rem;
+      }
+    }
+
+    /* Responsive story card */
+    @media (max-width: 760px) {
+      .story__card {
+        display: block;
+        gap: 1.5rem;
+      }
+    }
+
+    /* Responsive CTA band */
+    @media (max-width: 800px) {
+      .cta__inner {
+        display: block;
+        text-align: center;
+      }
+    }
+
+    /* Make CTA buttons turn darker on hover and focus for better interaction feedback */
+    .btn--primary:hover,
+    .btn--primary:focus {
+      background: #e6b800; /* darker yellow for hover/focus */
+      color: #1a1a1a;
+    }
+
+    .btn--ghost:hover,
+    .btn--ghost:focus {
+      background: rgba(255,255,255,0.12); /* subtle light overlay for ghost button */
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* Make the CTAs in the story section yellow */
+    .story__card .btn--primary {
+      background: var(--brand-yellow);
+      color: #1a1a1a;
+    }
+    .story__card .btn--primary:hover,
+    .story__card .btn--primary:focus {
+      background: #e6b800;
+      color: #1a1a1a;
+    }
+  </style>
 </head>
 <body>
-    <!-- Hero Section: This is the main banner at the top of the page -->
-    <section class="hero">
-        <!-- Main headline -->
-        <h1>Clean Water for Everyone</h1>
-        <!-- Subheadline -->
-        <p>Join us in bringing safe, clean water to communities in need.</p>
-    </section>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-    <!-- Story Section: This tells the story of the nonprofit -->
-    <section class="story">
-        <h2>Our Story</h2>
-        <p>
-         
-    </section>
+  <header>
+    <div class="container nav" role="navigation" aria-label="Primary">
+      <div class="brand" aria-label="Site brand">
+        <!-- Show only the brand name, no logo image -->
+        <span class="brand__text">charity : water</span>
+      </div>
+      <!-- Hamburger button for small screens -->
+      <button class="nav__hamburger" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false" onclick="toggleMenu()">
+        <!-- Simple hamburger icon using spans -->
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav__actions" id="nav-menu">
+        <a class="btn btn--ghost" href="#about">About us</a>
+        <a class="btn btn--primary" href="#why-water">Why water</a>
+      </div>
+    </div>
+  </header>
 
-    <!-- Real-World Impact Story Section -->
-    <section class="impact-story">
-        <!-- Section headline -->
-        <h2>Real Impact: Meet Amina</h2>
-        <!-- Container for image and text -->
-        <div class="impact-content">
-            <!-- Impact image -->
-            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Amina smiling with clean water" class="impact-image">
-            <!-- Impact story text -->
-            <p>
-                Amina used to walk miles every day to collect water for her family. Thanks to your support, her village now has a clean water well. Amina can go to school and her family is healthier and happier.
-            </p>
+  <main id="main">
+    <!-- HERO SECTION (main page) -->
+    <section class="hero" aria-labelledby="hero-title" id="main-hero">
+      <div class="container">
+        <div>
+          <h1 id="hero-title">See your impact. Join the movement. Change their future.</h1>
+          <p class="subhead">Join something bigger and see your generosity flow into clean water for a brighter tomorrow.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#" onclick="showDonationForm(event)">I want to see my $10 change a life</a>
+          </div>
+          <form id="donationForm" style="display:none; margin-top:1.5rem; background:#232323; padding:1rem; border-radius:10px; max-width:320px;">
+            <label style="display:block; margin-bottom:0.5rem;">
+              Email:<br>
+              <input type="email" name="email" required style="width:100%; padding:0.5rem; border-radius:6px; border:none; margin-top:0.2rem;">
+            </label>
+            <label style="display:block; margin-bottom:0.5rem;">
+              First Name:<br>
+              <input type="text" name="firstName" required style="width:100%; padding:0.5rem; border-radius:6px; border:none; margin-top:0.2rem;">
+            </label>
+            <label style="display:block; margin-bottom:0.5rem;">
+              Last Name:<br>
+              <input type="text" name="lastName" required style="width:100%; padding:0.5rem; border-radius:6px; border:none; margin-top:0.2rem;">
+            </label>
+            <button type="submit" class="btn btn--primary" style="margin-top:0.5rem;">Submit</button>
+          </form>
         </div>
+      </div>
     </section>
 
-    <!-- Call-to-Action Section: This encourages visitors to take action -->
-    <section class="call-to-action">
-        <h2>Make a Difference</h2>
-        <p>Your support can help save lives. Every donation brings us closer to a world with clean water for all.</p>
-        <a href="#" class="donate-button">Donate Now</a>
+    <!-- ABOUT US TAB (hidden by default) -->
+    <section id="about-tab" style="display:none; background:#232323; color:#fff; padding:2.5rem 0;">
+      <div class="container">
+        <h2 style="margin-top:0;">About Us</h2>
+        <p>
+          <strong>charity: water</strong> is a nonprofit organization on a mission to bring clean and safe drinking water to people in developing countries. 
+          Since 2006, charity: water has funded clean water projects for millions of people around the world, believing that access to clean water changes everything—health, education, and opportunity.
+        </p>
+        <p>
+          <strong>Our goal:</strong> End the water crisis in our lifetime by inspiring generosity and providing 100% transparency. Every dollar donated goes directly to water projects, and every project is tracked and reported back to donors.
+        </p>
+        <p>
+          <strong>Who we are:</strong> A passionate team, a global community of supporters, and local partners working together to create lasting change—one community at a time.
+        </p>
+        <a href="#" class="btn btn--ghost" onclick="showMain(event)" style="margin-top:1.5rem;">&#8592; Back to main page</a>
+      </div>
     </section>
+
+    <!-- WHY WATER TAB (hidden by default) -->
+    <section id="why-water-tab" style="display:none; background:#232323; color:#fff; padding:2.5rem 0;">
+      <div class="container">
+        <h2 style="margin-top:0;">Why Water?</h2>
+        <p>
+          Nearly 1 in 10 people worldwide live without access to clean and safe drinking water. This crisis affects health, education, and livelihoods—especially for women and children who often spend hours each day collecting water.
+        </p>
+        <p>
+          <strong>Why does charity: water focus on water?</strong> Because clean water changes everything. It improves health, keeps kids in school, gives families time to earn an income, and helps communities thrive. When a community gets access to clean water, it can break the cycle of poverty and unlock opportunities for a better future.
+        </p>
+        <p>
+          By providing clean and safe water, charity: water is helping people live healthier, more productive lives and building a foundation for lasting change.
+        </p>
+        <a href="#" class="btn btn--ghost" onclick="showMain(event)" style="margin-top:1.5rem;">&#8592; Back to main page</a>
+      </div>
+    </section>
+
+    <!-- REST OF THE MAIN PAGE CONTENT (STORY, CTA, etc.) -->
+    <section id="story" class="story" aria-labelledby="story-title">
+      <div class="container story__card">
+        <div>
+          <h2 id="story-title">Your donation, tracked from day one</h2>
+          <p>
+            We believe small contributions create real change when they are transparent. From your first dollar,
+            you’ll get updates you can follow: photos, progress notes, and the people whose lives you helped
+            transform.
+          </p>
+          <ul class="list">
+            <li><strong>Direct to projects:</strong> Funds support clean water solutions in communities that need them most.</li>
+            <li><strong>Project updates:</strong> See milestones and photos as projects move from planning to completion.</li>
+            <li><strong>Real stories:</strong> Meet students and families whose daily lives improve with safe water.</li>
+          </ul>
+          <div class="highlights" aria-label="Impact highlights">
+            <div class="pill" aria-label="Example stat">GPS-tracked projects</div>
+            <div class="pill" aria-label="Example stat">Photo & story updates</div>
+            <div class="pill" aria-label="Example stat">Community-led solutions</div>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <!-- Track your donation CTA now asks for email -->
+            <a class="btn btn--primary" href="#" onclick="showTrackForm(event)">Track your donation</a>
+            <!-- Simple email form, hidden by default -->
+            <form id="trackForm" style="display:none; margin-top:1rem;">
+              <label style="display:block; margin-bottom:0.5rem;">
+                Email address:<br>
+                <input type="email" name="trackEmail" required style="width:100%; padding:0.5rem; border-radius:6px; border:none; margin-top:0.2rem;">
+              </label>
+              <button type="submit" class="btn btn--primary" style="margin-top:0.5rem;">Submit</button>
+            </form>
+          </div>
+        </div>
+        <div>
+          <figure>
+            <img src="img/charity-water-2nd-image.png" alt="charity: water campaign image" />
+            <figcaption class="caption" style="color:#fff;">Clean water changes what’s possible: health, school attendance, and time for childhood.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="donate" class="cta" aria-labelledby="cta-title">
+      <div class="container cta__inner">
+        <div>
+          <h2 id="cta-title">Ready to help someone turn on clean water—for the first time?</h2>
+          <p style="margin: .25rem 0 0;">Join a global community funding transparent, trackable water projects.</p>
+        </div>
+        <div style="display:flex; gap:.6rem; align-items:center; justify-content:flex-end; flex-wrap:wrap;">
+          <!-- Give once CTA opens amount chart -->
+          <a class="btn btn--primary" href="#" onclick="showAmountChart(event, 'once')">Give once</a>
+          <!-- Give monthly CTA opens amount chart -->
+          <a class="btn btn--ghost" href="#" onclick="showAmountChart(event, 'monthly')">Give monthly</a>
+        </div>
+        <!-- Amount chart, hidden by default -->
+        <form id="amountChart" style="display:none; margin-top:1.5rem; background:#232323; padding:1rem; border-radius:10px; color:#fff;">
+          <label style="font-weight:bold;">Choose your amount:</label>
+          <!-- Make the options a vertical list for beginners -->
+          <div style="margin:0.7rem 0; display: flex; flex-direction: column; gap: 0.7rem;">
+            <label><input type="radio" name="donateAmount" value="1"> $1</label>
+            <label><input type="radio" name="donateAmount" value="3"> $3</label>
+            <label><input type="radio" name="donateAmount" value="5"> $5</label>
+            <label><input type="radio" name="donateAmount" value="10"> $10</label>
+            <!-- "Add another amount" below the numbered options -->
+            <label>
+              <input type="radio" name="donateAmount" value="other" id="otherRadio"> Add another amount
+            </label>
+          </div>
+          <!-- Custom amount input, hidden unless "other" is selected -->
+          <input type="number" id="otherAmount" name="otherAmount" min="1" placeholder="Enter amount" style="display:none; width:120px; padding:0.4rem; border-radius:6px; border:none; margin-bottom:0.7rem;">
+          <br>
+          <button type="submit" class="btn btn--primary" style="margin-top:0.5rem;">Donate</button>
+          <button type="button" class="btn btn--ghost" style="margin-top:0.5rem; margin-left:0.5rem;" onclick="hideAmountChart()">Cancel</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container" role="contentinfo">
+    <p>
+      © 2025 Student concept inspired by charity : water brand attributes. Built for coursework. Replace sample photos with your own licensed images and confirm copy with your instructor.
+    </p>
+    <p>
+      Color palette intent: calm (sand), hopeful (blue), optimistic (yellow), grounded (earth). Typography uses a simple, readable system font stack.
+    </p>
+  </footer>
+
+  <script>
+    // Hamburger menu for mobile
+    function toggleMenu() {
+      var menu = document.getElementById('nav-menu');
+      var btn = document.querySelector('.nav__hamburger');
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', !expanded);
+      menu.classList.toggle('open');
+    }
+
+    // Show the donation form when CTA is clicked
+    function showDonationForm(event) {
+      event.preventDefault();
+      document.getElementById('donationForm').style.display = 'block';
+    }
+
+    // Handle form submission
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.getElementById('donationForm');
+      if(form) {
+        form.onsubmit = function(e) {
+          e.preventDefault();
+          alert('Thank you for your interest in changing a life!');
+          form.reset();
+          form.style.display = 'none';
+        };
+      }
+    });
+
+    // Show About Us tab and hide others
+    function showAbout(event) {
+      event.preventDefault();
+      document.getElementById('main-hero').style.display = 'none';
+      document.getElementById('about-tab').style.display = 'block';
+      document.getElementById('why-water-tab').style.display = 'none';
+      document.getElementById('story').style.display = 'none';
+      document.getElementById('donate').style.display = 'none';
+      // Close nav menu if open (mobile)
+      var menu = document.getElementById('nav-menu');
+      if(menu) menu.classList.remove('open');
+    }
+
+    // Show Why Water tab and hide others
+    function showWhyWater(event) {
+      event.preventDefault();
+      document.getElementById('main-hero').style.display = 'none';
+      document.getElementById('about-tab').style.display = 'none';
+      document.getElementById('why-water-tab').style.display = 'block';
+      document.getElementById('story').style.display = 'none';
+      document.getElementById('donate').style.display = 'none';
+      var menu = document.getElementById('nav-menu');
+      if(menu) menu.classList.remove('open');
+    }
+
+    // Show main page and hide tabs
+    function showMain(event) {
+      event.preventDefault();
+      document.getElementById('main-hero').style.display = 'block';
+      document.getElementById('about-tab').style.display = 'none';
+      document.getElementById('why-water-tab').style.display = 'none';
+      document.getElementById('story').style.display = 'block';
+      document.getElementById('donate').style.display = 'block';
+      var menu = document.getElementById('nav-menu');
+      if(menu) menu.classList.remove('open');
+    }
+
+    // Show the "Track your donation" email form
+    function showTrackForm(event) {
+      event.preventDefault();
+      document.getElementById('trackForm').style.display = 'block';
+    }
+
+    // Handle "Track your donation" form submission
+    document.addEventListener('DOMContentLoaded', function() {
+      var trackForm = document.getElementById('trackForm');
+      if(trackForm) {
+        trackForm.onsubmit = function(e) {
+          e.preventDefault();
+          alert('Thank you! We will send tracking info to your email.');
+          trackForm.reset();
+          trackForm.style.display = 'none';
+        };
+      }
+    });
+
+    // Show the amount chart for Give Once / Give Monthly
+    function showAmountChart(event, type) {
+      event.preventDefault();
+      var chart = document.getElementById('amountChart');
+      chart.style.display = 'block';
+      // Reset form and hide custom amount input
+      chart.reset();
+      document.getElementById('otherAmount').style.display = 'none';
+    }
+
+    // Hide the amount chart
+    function hideAmountChart() {
+      document.getElementById('amountChart').style.display = 'none';
+    }
+
+    // Show custom amount input if "Add another amount" is selected
+    document.addEventListener('DOMContentLoaded', function() {
+      var chart = document.getElementById('amountChart');
+      if(chart) {
+        chart.onchange = function(e) {
+          var otherRadio = document.getElementById('otherRadio');
+          var otherAmount = document.getElementById('otherAmount');
+          if(otherRadio && otherRadio.checked) {
+            otherAmount.style.display = 'inline-block';
+          } else {
+            otherAmount.style.display = 'none';
+          }
+        };
+        chart.onsubmit = function(e) {
+          e.preventDefault();
+          var amount = chart.donateAmount.value === "other" ? chart.otherAmount.value : chart.donateAmount.value;
+          if(!amount || amount < 1) {
+            alert("Please enter a valid amount.");
+            return;
+          }
+          alert("Thank you for your donation of $" + amount + "!");
+          chart.reset();
+          hideAmountChart();
+        };
+      }
+    });
+
+    // Attach click handlers to nav links
+    document.addEventListener('DOMContentLoaded', function() {
+      var aboutLink = document.querySelector('a[href="#about"]');
+      var whyLink = document.querySelector('a[href="#why-water"]');
+      if(aboutLink) aboutLink.onclick = showAbout;
+      if(whyLink) whyLink.onclick = showWhyWater;
+    });
+  </script>
 </body>
 </html>
+
